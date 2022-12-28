@@ -1,18 +1,17 @@
 package main
 
 import (
-	"SkillboxDiploma/pkg/SMSData"
+	"SkillboxDiploma/pkg/MMSData"
 	"fmt"
 )
 
 func main() {
-	smsData, err := SMSData.GetData()
+	data, err := MMSData.GetData()
 	if err != nil {
 		fmt.Println(err)
-		return
 	}
 
-	for _, s := range smsData {
-		fmt.Println(s.Сountry)
+	for _, m := range data {
+		fmt.Println(m.Provider)
 	}
 }
