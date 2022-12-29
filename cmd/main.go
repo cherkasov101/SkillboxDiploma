@@ -1,12 +1,12 @@
 package main
 
 import (
-	"SkillboxDiploma/pkg/SMSData"
+	"SkillboxDiploma/pkg/emailData"
 	"fmt"
 )
 
 func main() {
-	data, err := SMSData.GetData()
+	data, err := emailData.GetData()
 	if err != nil {
 		fmt.Println(err)
 	}
