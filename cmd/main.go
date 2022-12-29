@@ -1,12 +1,18 @@
 package main
 
 import (
-	"SkillboxDiploma/pkg/billingData"
+	"SkillboxDiploma/pkg/supportData"
 	"fmt"
 )
 
 func main() {
-	data := billingData.GetData()
+	data, err := supportData.GetData()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	fmt.Println(data)
+	for _, i := range data {
+		fmt.Println(i.ActiveTickets)
+	}
 }
