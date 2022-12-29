@@ -2,9 +2,9 @@ package SMSData
 
 import (
 	"SkillboxDiploma/pkg/stateCodes"
-	"encoding/csv"
-	"fmt"
+	"log"
 	"os"
+	"strings"
 )
 
 var fileName = "../../skillbox-diploma/sms.data"
@@ -17,32 +17,28 @@ type SMSData struct {
 }
 
 func GetData() ([]SMSData, error) {
-	file, err := os.Open(fileName)
+	bytesData, err := os.ReadFile(fileName)
 	if err != nil {
+		log.Fatal(err)
 		return nil, err
-	}
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	reader.Comma = ';'
-	sms, err := reader.ReadAll()
-	if err != nil {
-		fmt.Println(err)
-		return nil, nil
 	}
 
 	var data []SMSData
 
-	for _, stateData := range sms {
-		checkProvider := stateData[3] == "Topolo" || stateData[3] == "Rond" || stateData[3] == "Kildy"
-		if len(stateData) == 4 && stateCodes.IsExist(stateData[0]) && checkProvider {
-			s := SMSData{
-				stateData[0],
-				stateData[1],
-				stateData[2],
-				stateData[3],
+	content := strings.Split(string(bytesData), "\n")
+	for _, sms := range content {
+		s := strings.Split(sms, ";")
+		if len(s) == 4 && stateCodes.IsExist(s[0]) {
+			checkProvider := s[3] == "Topolo" || s[3] == "Rond" || s[3] == "Kildy"
+			if checkProvider {
+				newSMS := SMSData{
+					s[0],
+					s[1],
+					s[2],
+					s[3],
+				}
+				data = append(data, newSMS)
 			}
-			data = append(data, s)
 		}
 	}
 
