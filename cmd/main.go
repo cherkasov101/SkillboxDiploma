@@ -1,18 +1,18 @@
 package main
 
 import (
-	"SkillboxDiploma/pkg/incidentData"
-	"fmt"
+	"github.com/go-chi/chi/v5"
+	"net/http"
 )
 
-func main() {
-	data, err := incidentData.GetData()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+var localhost = "localhost:8282"
 
-	for _, i := range data {
-		fmt.Println(i.Status)
-	}
+func main() {
+	r := chi.NewRouter()
+	r.HandleFunc("/{category}", handleConnection)
+	http.ListenAndServe(localhost, r)
+}
+
+func handleConnection(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("OK"))
 }

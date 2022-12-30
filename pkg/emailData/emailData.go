@@ -11,9 +11,9 @@ import (
 var fileName = "../../skillbox-diploma/email.data"
 
 type EmailData struct {
-	Country      string
-	Provider     string
-	DeliveryTime int
+	Country      string `json:"country"`
+	Provider     string `json:"provider"`
+	DeliveryTime int    `json:"deliveryTime"`
 }
 
 var correctProviders = []string{

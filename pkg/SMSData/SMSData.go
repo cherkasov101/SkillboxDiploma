@@ -10,10 +10,10 @@ import (
 var fileName = "../../skillbox-diploma/sms.data"
 
 type SMSData struct {
-	Сountry      string
-	Bandwidth    string
-	ResponseTime string
-	Provider     string
+	Сountry      string `json:"сountry"`
+	Bandwidth    string `json:"bandwidth"`
+	ResponseTime string `json:"responseTime"`
+	Provider     string `json:"provider"`
 }
 
 func GetData() ([]SMSData, error) {

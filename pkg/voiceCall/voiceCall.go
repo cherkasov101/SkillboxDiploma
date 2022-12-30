@@ -10,25 +10,25 @@ import (
 
 var fileName = "../../skillbox-diploma/voice.data"
 
-type voiceData struct {
-	Сountry             string
-	Load                string
-	ResponseTime        string
-	Provider            string
-	connectionStability float32
-	Frequency           string
-	CallDuration        string
-	Unknown             string
+type VoiceData struct {
+	Сountry             string  `json:"сountry"`
+	Load                string  `json:"load"`
+	ResponseTime        string  `json:"responseTime"`
+	Provider            string  `json:"provider"`
+	connectionStability float32 `json:"connectionStability"`
+	Frequency           string  `json:"frequency"`
+	CallDuration        string  `json:"callDuration"`
+	Unknown             string  `json:"unknown"`
 }
 
-func GetData() ([]voiceData, error) {
+func GetData() ([]VoiceData, error) {
 	bytesData, err := os.ReadFile(fileName)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
-	var data []voiceData
+	var data []VoiceData
 
 	content := strings.Split(string(bytesData), "\n")
 	for _, call := range content {
@@ -42,7 +42,7 @@ func GetData() ([]voiceData, error) {
 					return nil, err
 				}
 				stability := float32(stab)
-				voiceCall := voiceData{
+				voiceCall := VoiceData{
 					c[0],
 					c[1],
 					c[2],
