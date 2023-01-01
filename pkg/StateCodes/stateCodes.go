@@ -39,3 +39,8 @@ func IsExist(code string) bool {
 	}
 	return true
 }
+
+func GetName(code string) (name string) {
+	name = stateCodesMap[code]
+	return
+}
