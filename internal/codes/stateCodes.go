@@ -1,4 +1,4 @@
-package stateCodes
+package codes
 
 import (
 	"encoding/csv"
@@ -8,7 +8,7 @@ import (
 
 var (
 	stateCodesMap map[string]string
-	fileName      = "../internal/stateCodes/states.scv"
+	fileName      = "../internal/codes/states.scv"
 )
 
 func init() {

@@ -1,7 +1,7 @@
-package SMSData
+package sms
 
 import (
-	"SkillboxDiploma/internal/stateCodes"
+	"SkillboxDiploma/internal/codes"
 	"log"
 	"os"
 	"strings"
@@ -19,7 +19,7 @@ type SMSData struct {
 func GetData() ([]SMSData, error) {
 	bytesData, err := os.ReadFile(fileName)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf(err.Error())
 		return nil, err
 	}
 
@@ -28,7 +28,7 @@ func GetData() ([]SMSData, error) {
 	content := strings.Split(string(bytesData), "\n")
 	for _, sms := range content {
 		s := strings.Split(sms, ";")
-		if len(s) == 4 && stateCodes.IsExist(s[0]) {
+		if len(s) == 4 && codes.IsExist(s[0]) {
 			checkProvider := s[3] == "Topolo" || s[3] == "Rond" || s[3] == "Kildy"
 			if checkProvider {
 				newSMS := SMSData{

@@ -1,14 +1,14 @@
 package result
 
 import (
-	"SkillboxDiploma/internal/MMSData"
-	"SkillboxDiploma/internal/SMSData"
-	"SkillboxDiploma/internal/billingData"
-	"SkillboxDiploma/internal/emailData"
-	"SkillboxDiploma/internal/incidentData"
-	"SkillboxDiploma/internal/stateCodes"
-	"SkillboxDiploma/internal/supportData"
-	"SkillboxDiploma/internal/voiceCall"
+	"SkillboxDiploma/internal/billing"
+	"SkillboxDiploma/internal/codes"
+	"SkillboxDiploma/internal/email"
+	"SkillboxDiploma/internal/incident"
+	"SkillboxDiploma/internal/mms"
+	"SkillboxDiploma/internal/sms"
+	"SkillboxDiploma/internal/support"
+	"SkillboxDiploma/internal/voice"
 )
 
 type ResultT struct {
@@ -18,13 +18,13 @@ type ResultT struct {
 }
 
 type ResultSetT struct {
-	SMS       [][]SMSData.SMSData                `json:"sms"`
-	MMS       [][]MMSData.MMSData                `json:"mms"`
-	VoiceCall []voiceCall.VoiceData              `json:"voice_call"`
-	Email     map[string][][]emailData.EmailData `json:"email"`
-	Billing   billingData.BillingData            `json:"billing"`
-	Support   []int                              `json:"support"`
-	Incidents []incidentData.IncidentData        `json:"incident"`
+	SMS       [][]sms.SMSData                `json:"sms"`
+	MMS       [][]mms.MMSData                `json:"mms"`
+	VoiceCall []voice.VoiceData              `json:"voice_call"`
+	Email     map[string][][]email.EmailData `json:"email"`
+	Billing   billing.BillingData            `json:"billing"`
+	Support   []int                          `json:"support"`
+	Incidents []incident.IncidentData        `json:"incident"`
 }
 
 func GetResultData() ResultT {
@@ -34,7 +34,7 @@ func GetResultData() ResultT {
 		"",
 	}
 
-	voiceCall, err := voiceCall.GetData()
+	voiceCall, err := voice.GetData()
 	if err != nil {
 		resultT.Error = err.Error()
 		return resultT
@@ -45,7 +45,7 @@ func GetResultData() ResultT {
 		getMMSData(&resultT),
 		voiceCall,
 		getEmailData(&resultT),
-		billingData.GetData(),
+		billing.GetData(),
 		getSupportData(&resultT),
 		getIncidentData(&resultT),
 	}
@@ -58,15 +58,15 @@ func GetResultData() ResultT {
 	return resultT
 }
 
-func getSMSData(resultT *ResultT) [][]SMSData.SMSData {
-	smsData, err := SMSData.GetData()
+func getSMSData(resultT *ResultT) [][]sms.SMSData {
+	smsData, err := sms.GetData()
 	if err != nil {
 		resultT.Error = err.Error()
 		return nil
 	}
 
 	for i, s := range smsData {
-		smsData[i].Сountry = stateCodes.GetName(s.Сountry)
+		smsData[i].Сountry = codes.GetName(s.Сountry)
 	}
 
 	for i := 0; i < len(smsData); i++ {
@@ -87,18 +87,18 @@ func getSMSData(resultT *ResultT) [][]SMSData.SMSData {
 	}
 	secondSMSData := smsData
 
-	return [][]SMSData.SMSData{firstSMSData, secondSMSData}
+	return [][]sms.SMSData{firstSMSData, secondSMSData}
 }
 
-func getMMSData(resultT *ResultT) [][]MMSData.MMSData {
-	mmsData, err := MMSData.GetData()
+func getMMSData(resultT *ResultT) [][]mms.MMSData {
+	mmsData, err := mms.GetData()
 	if err != nil {
 		resultT.Error = err.Error()
 		return nil
 	}
 
 	for i, m := range mmsData {
-		mmsData[i].Country = stateCodes.GetName(m.Country)
+		mmsData[i].Country = codes.GetName(m.Country)
 	}
 
 	for i := 0; i < len(mmsData); i++ {
@@ -119,11 +119,11 @@ func getMMSData(resultT *ResultT) [][]MMSData.MMSData {
 	}
 	secondMMSData := mmsData
 
-	return [][]MMSData.MMSData{firstMMSData, secondMMSData}
+	return [][]mms.MMSData{firstMMSData, secondMMSData}
 }
 
-func getEmailData(resultT *ResultT) map[string][][]emailData.EmailData {
-	emData, err := emailData.GetData()
+func getEmailData(resultT *ResultT) map[string][][]email.EmailData {
+	emData, err := email.GetData()
 	if err != nil {
 		resultT.Error = err.Error()
 		return nil
@@ -137,11 +137,11 @@ func getEmailData(resultT *ResultT) map[string][][]emailData.EmailData {
 		}
 	}
 
-	resultMap := make(map[string][][]emailData.EmailData)
+	resultMap := make(map[string][][]email.EmailData)
 
 	for _, e := range emData {
 		if len(resultMap[e.Country]) == 0 {
-			resultMap[e.Country] = append(resultMap[e.Country], []emailData.EmailData{})
+			resultMap[e.Country] = append(resultMap[e.Country], []email.EmailData{})
 		}
 	}
 
@@ -161,7 +161,7 @@ func getEmailData(resultT *ResultT) map[string][][]emailData.EmailData {
 }
 
 func getSupportData(resultT *ResultT) []int {
-	suppData, err := supportData.GetData()
+	suppData, err := support.GetData()
 	if err != nil {
 		resultT.Error = err.Error()
 		return nil
@@ -188,14 +188,14 @@ func getSupportData(resultT *ResultT) []int {
 	return []int{load, time}
 }
 
-func getIncidentData(resultT *ResultT) []incidentData.IncidentData {
-	incidData, err := incidentData.GetData()
+func getIncidentData(resultT *ResultT) []incident.IncidentData {
+	incidData, err := incident.GetData()
 	if err != nil {
 		resultT.Error = err.Error()
 		return nil
 	}
 
-	var newIncidentData []incidentData.IncidentData
+	var newIncidentData []incident.IncidentData
 
 	for _, i := range incidData {
 		if i.Status == "active" {

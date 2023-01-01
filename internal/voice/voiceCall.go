@@ -1,7 +1,7 @@
-package voiceCall
+package voice
 
 import (
-	"SkillboxDiploma/internal/stateCodes"
+	"SkillboxDiploma/internal/codes"
 	"log"
 	"os"
 	"strconv"
@@ -24,7 +24,7 @@ type VoiceData struct {
 func GetData() ([]VoiceData, error) {
 	bytesData, err := os.ReadFile(fileName)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf(err.Error())
 		return nil, err
 	}
 
@@ -33,12 +33,12 @@ func GetData() ([]VoiceData, error) {
 	content := strings.Split(string(bytesData), "\n")
 	for _, call := range content {
 		c := strings.Split(call, ";")
-		if len(c) == 8 && stateCodes.IsExist(c[0]) {
+		if len(c) == 8 && codes.IsExist(c[0]) {
 			checkProvider := c[3] == "TransparentCalls" || c[3] == "E-Voice" || c[3] == "JustPhone"
 			if checkProvider {
 				stab, err := strconv.ParseFloat(c[4], 32)
 				if err != nil {
-					log.Fatal(err)
+					log.Printf(err.Error())
 					return nil, err
 				}
 				stability := float32(stab)

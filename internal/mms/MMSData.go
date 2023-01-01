@@ -1,7 +1,7 @@
-package MMSData
+package mms
 
 import (
-	"SkillboxDiploma/internal/stateCodes"
+	"SkillboxDiploma/internal/codes"
 	"encoding/json"
 	"io"
 	"log"
@@ -18,31 +18,31 @@ type MMSData struct {
 func GetData() ([]MMSData, error) {
 	resp, err := http.Get("http://127.0.0.1:8383/mms")
 	if err != nil {
-		log.Fatal(err)
+		log.Printf(err.Error())
 		return nil, err
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if resp.StatusCode > 299 {
-		log.Fatalf("Response failed with status code: %d and\nbody: %s\n", resp.StatusCode, body)
+		log.Printf("Response failed with status code: %d and\nbody: %s\n", resp.StatusCode, body)
 		return nil, err
 	}
 	if err != nil {
-		log.Fatal(err)
+		log.Printf(err.Error())
 		return nil, err
 	}
 
 	var data []MMSData
 	if err := json.Unmarshal(body, &data); err != nil {
-		log.Fatal(err)
+		log.Printf(err.Error())
 		return nil, err
 	}
 
 	var result []MMSData
 	for _, m := range data {
 		checkProvider := m.Provider == "Topolo" || m.Provider == "Rond" || m.Provider == "Kildy"
-		if stateCodes.IsExist(m.Country) && checkProvider {
+		if codes.IsExist(m.Country) && checkProvider {
 			result = append(result, m)
 		}
 	}

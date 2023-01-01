@@ -1,4 +1,4 @@
-package billingData
+package billing
 
 import (
 	"log"
@@ -20,7 +20,7 @@ type BillingData struct {
 func GetData() BillingData {
 	bytesData, err := os.ReadFile(fileName)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf(err.Error())
 	}
 
 	var statuses []bool
@@ -28,7 +28,7 @@ func GetData() BillingData {
 	for i := len(bytesData) - 1; i >= 0; i-- {
 		status, err := strconv.ParseBool(string(bytesData[i]))
 		if err != nil {
-			log.Fatal(err)
+			log.Printf(err.Error())
 		}
 		statuses = append(statuses, status)
 	}

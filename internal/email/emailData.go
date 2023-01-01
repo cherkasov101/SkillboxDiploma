@@ -1,7 +1,7 @@
-package emailData
+package email
 
 import (
-	"SkillboxDiploma/internal/stateCodes"
+	"SkillboxDiploma/internal/codes"
 	"log"
 	"os"
 	"strconv"
@@ -35,7 +35,7 @@ var correctProviders = []string{
 func GetData() ([]EmailData, error) {
 	bytesData, err := os.ReadFile(fileName)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf(err.Error())
 		return nil, err
 	}
 
@@ -44,11 +44,11 @@ func GetData() ([]EmailData, error) {
 	content := strings.Split(string(bytesData), "\n")
 	for _, email := range content {
 		e := strings.Split(email, ";")
-		if len(e) == 3 && stateCodes.IsExist(e[0]) {
+		if len(e) == 3 && codes.IsExist(e[0]) {
 			if checkProvider(e[1]) {
 				time, err := strconv.Atoi(e[2])
 				if err != nil {
-					log.Fatal(err)
+					log.Printf(err.Error())
 					return nil, err
 				}
 				eD := EmailData{
