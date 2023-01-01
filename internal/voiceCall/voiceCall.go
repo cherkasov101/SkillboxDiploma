@@ -1,7 +1,7 @@
 package voiceCall
 
 import (
-	"SkillboxDiploma/pkg/stateCodes"
+	"SkillboxDiploma/internal/stateCodes"
 	"log"
 	"os"
 	"strconv"

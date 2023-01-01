@@ -1,7 +1,7 @@
 package SMSData
 
 import (
-	"SkillboxDiploma/pkg/stateCodes"
+	"SkillboxDiploma/internal/stateCodes"
 	"log"
 	"os"
 	"strings"

@@ -1,7 +1,7 @@
 package MMSData
 
 import (
-	"SkillboxDiploma/pkg/stateCodes"
+	"SkillboxDiploma/internal/stateCodes"
 	"encoding/json"
 	"io"
 	"log"

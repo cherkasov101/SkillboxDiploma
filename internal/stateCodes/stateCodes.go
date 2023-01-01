@@ -8,7 +8,7 @@ import (
 
 var (
 	stateCodesMap map[string]string
-	fileName      = "../pkg/stateCodes/states.scv"
+	fileName      = "../internal/stateCodes/states.scv"
 )
 
 func init() {

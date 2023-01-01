@@ -1,14 +1,14 @@
 package result
 
 import (
-	"SkillboxDiploma/pkg/MMSData"
-	"SkillboxDiploma/pkg/SMSData"
-	"SkillboxDiploma/pkg/billingData"
-	"SkillboxDiploma/pkg/emailData"
-	"SkillboxDiploma/pkg/incidentData"
-	"SkillboxDiploma/pkg/stateCodes"
-	"SkillboxDiploma/pkg/supportData"
-	"SkillboxDiploma/pkg/voiceCall"
+	"SkillboxDiploma/internal/MMSData"
+	"SkillboxDiploma/internal/SMSData"
+	"SkillboxDiploma/internal/billingData"
+	"SkillboxDiploma/internal/emailData"
+	"SkillboxDiploma/internal/incidentData"
+	"SkillboxDiploma/internal/stateCodes"
+	"SkillboxDiploma/internal/supportData"
+	"SkillboxDiploma/internal/voiceCall"
 )
 
 type ResultT struct {

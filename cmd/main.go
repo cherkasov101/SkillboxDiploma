@@ -1,7 +1,7 @@
 package main
 
 import (
-	"SkillboxDiploma/pkg/result"
+	"SkillboxDiploma/internal/result"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"net/http"
